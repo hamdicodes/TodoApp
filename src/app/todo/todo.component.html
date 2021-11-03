@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row">
+    <div class="col-5 mx-auto">
+
+      <div class="card">
+        <div class="card-header text-center">
+          <h3 class="bg-primary text-white p-3">
+            {{getName()}}' TODO List
+           </h3>
+        </div>
+        <div class="card-body">
+
+          <div class="input-group input-group-sm mb-3">
+            <input  type="text" class="form-control"
+            [(ngModel)] = "inputText"
+            (keyup.enter)="addItem();">
+
+            <button type="button"
+            [class] ="getButtonClasses()"
+            class="btn btn-sm"
+            (click)="addItem(); ">Add</button>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" [(ngModel)]="displayAll" type="checkbox" name="" id="dispalyAll">
+            <label for="dispalyAll" class="form-check-label">Hepsini Göster</label>
+
+
+
+          <div class="alert alert-success my-2 text-center" *ngIf="dispalyCount() > 0"  role="alert">
+            {{ dispalyCount() }} görev tamamlandı.
+          </div>
+
+          <div class="alert alert-warning text-center" role="alert" *ngIf="getItems().length == 0 else itemsTable">
+            Listede Görev yok.
+     </div>
+        <ng-template #itemsTable>
+
+          <table class="table table-bordered text-center" *ngIf="getItems().length > 0">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+                <th scope="col">completed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of getItems(); let i = index;"
+              [class]="{'bg-secondary': item.action, 'bg-light': !item.action}">
+                <td>{{i+1}}</td>
+                <td>{{item.description}}</td>
+                <td *ngIf="item.action"><span class="badge rounded-pill bg-success">{{item.action}}</span></td>
+                <td *ngIf="!item.action"><span class="badge rounded-pill bg-danger">{{item.action}}</span></td>
+                <td >
+                  <input type="checkbox" (change)="onActionChanged(item)" [(ngModel)]="item.action" name="" id="">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </ng-template>
+
+        <button type="button"
+        class="btn btn-sm btn-danger"
+        (click)="clearList(); ">Clear</button>
+
+      </div>
+
+        </div>
+        <div class="card-footer text-muted text-center">
+          <a href="{{getSocialNetwork()}}" class="link-primary">instagram</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
